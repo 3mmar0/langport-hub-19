@@ -47,8 +47,9 @@ Mobile-first portal layout with sidebar on desktop and compact nav on mobile.
 
 ## Technical notes
 
-- TanStack Start + React with route files per page; no Lovable Cloud, no database, no auth backend.
-- All screen data comes from typed mock modules in one folder, each shaped like a REST resource so swapping in Laravel endpoints is a one-file change per resource.
+- TanStack Start + React with route files per page; no Lovable Cloud, no database, no server auth.
+- One data layer module per resource (programs, registrations, students, courses, classes, materials, assignments, attendance, progress, announcements, certificates, payments, notifications). Each seeds realistic data and persists reads/writes to browser local storage, so registrations, placement results, assignment submissions, admin edits and demo logins survive a refresh. Swapping each module's functions for `fetch` calls to your Laravel endpoints is a one-file change per resource.
+- Demo login: credentials checked against the local student record; a "current user" key in local storage drives the portal and admin gating (UI-level only, replaced by real auth later).
 - Bilingual via a lightweight i18n context (EN/AR dictionaries) plus `dir` switching on the document, persisted in local storage.
 - All colors as semantic tokens in `src/styles.css`; white theme as the base.
 - Per-route SEO metadata (title, description, og/twitter) on every public page.
