@@ -1,6 +1,6 @@
 # Langport — Front-End Design Build
 
-Design-only build: a complete, responsive, bilingual (English/Arabic) front end for the Langport platform. No backend is created here — all screens run on realistic mock data, structured so your Laravel API can be plugged in later.
+Design-only build: a complete, responsive, bilingual (English/Arabic) front end for the Langport platform. No server backend is created here — screens run on realistic seed data with browser local storage for anything the user creates or changes, structured so your Laravel API can replace the storage layer later.
 
 ## Theme & brand
 
