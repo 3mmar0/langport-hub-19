@@ -1,48 +1,62 @@
-# Langport — Platform Plan
+# Langport — Front-End Design Build
 
-A bilingual (English/Arabic) EdTech platform with three surfaces: public marketing site, Student Portal, and Admin System. Dark navy + cyan brand identity from the Langport logo, white/light mode as the secondary theme.
+Design-only build: a complete, responsive, bilingual (English/Arabic) front end for the Langport platform. No backend is created here — all screens run on realistic mock data, structured so your Laravel API can be plugged in later.
 
-## Brand & design direction
+## Theme & brand
 
-- Palette: deep navy `#0A1140`-family background, electric cyan `#22D3FF` accent, near-white text, soft slate surfaces. Light theme mirrors it with white surfaces and navy text.
-- Rounded cards (large radius), generous spacing, clear icons, one strong CTA style, simple top navigation.
+- Main theme is white/light: white and soft off-white surfaces, deep navy `#0A1140` text and headings, electric cyan `#22D3FF` as the accent/CTA color (from the logo), with navy used for the footer and dark feature bands. Optional dark toggle can come later.
+- Rounded cards (large radius), generous spacing, clear icons, one consistent CTA style, simple top navigation.
 - Modern EdTech feel — not a traditional school site.
-- Uploaded logo used in the header/footer and as the favicon.
+- Uploaded Langport logo in the header and footer, plus set as the favicon.
 - Language switcher (EN / العربية) in the header; Arabic flips the whole layout to RTL with an Arabic-friendly font.
 
-## Phase 1 — Public site + Student Portal shell (this build)
+## Public website
 
-Public routes:
 - `/` Home — hero ("Learn English. Build Confidence. Find Your Voice."), CTAs: Find Your Program / Take the Placement Test / Login; sections: Why Langport (6 points), Our Programs, Find Your Level, New to Langport?, Already a Student?, Contact CTA.
 - `/about`, `/how-it-works`, `/contact`
-- `/programs` — all 8 programs; `/programs/$slug` — full program template (who it's for, goal, recommended level, duration, schedule, outcomes, content, what's included, price/package, how to join, Register CTA).
-- `/find-your-level` — placement test flow: start → multiple-choice questions → submit → CEFR level result → recommended program → Register CTA. Result saved for the visitor.
-- `/register` — registration form (all required + optional fields, validated), saves a customer record, shows confirmation.
-- `/auth` — student login/signup (email + password, Google sign-in), Remember Me, Forgot Password + reset page.
+- `/programs` — all 8 programs; `/programs/$slug` — full program template (who it's for, goal, recommended level, duration, schedule, learning outcomes, course content, what's included, price/package, how to join) with Register / Contact CTA.
+- `/find-your-level` — placement test UI: start → multiple-choice questions with progress → result screen showing CEFR level + recommended program → Register CTA. Scored client-side.
+- `/register` — full registration form (all required and optional fields, validated) → confirmation screen.
+- `/payment` — payment summary screen: program, level, package, duration, total, discount, amount paid, remaining, status badge (Pending / Partially Paid / Paid / Confirmed). Display + form UI only.
+- `/login` — student login (email or mobile, password, Remember Me, Forgot Password) and `/forgot-password`. UI only, demo sign-in enters the portal.
 
-Student Portal (login-protected):
-- `/dashboard` — welcome, current program, level, course progress, attendance, next class.
-- `/portal/course`, `/portal/schedule`, `/portal/materials`, `/portal/announcements`, `/portal/support`.
-- Mobile-first portal layout with bottom/collapsible nav.
+## Student Portal (design, mock student)
 
-Backend (Lovable Cloud): profiles, roles (student/admin/instructor), programs, levels, courses/groups, enrollments, classes, materials, announcements, registrations, placement results — with row-level security so students only see their own data. Seeded with the 8 real Langport programs, CEFR levels, and demo course/schedule/material/announcement rows so the portal is populated immediately.
+Mobile-first portal layout with sidebar on desktop and compact nav on mobile.
 
-## Phase 2 — Learning management
+- Dashboard: welcome, current program, current level, course progress, attendance, next class.
+- My Course: program, level, instructor, group, dates, progress, modules/units, materials, activities, assignments, resources.
+- My Schedule: calendar and list view, date, time, course, instructor, class status, class link, Join Class button.
+- Learning Materials: coursebook, PDFs, worksheets, videos, audio, extra practice, recorded sessions, View/Download actions.
+- Assignments: title, due date, status (Pending / Submitted / Reviewed), submission UI, teacher feedback.
+- Attendance: total classes, attended, absent, late, percentage, history.
+- Progress: overall plus Speaking, Listening, Reading, Writing, Vocabulary, Grammar as progress bars, with teacher feedback.
+- Announcements: list with read/unread state and categories.
+- Certificates: course, level, completion date, certificate ID, View / Download.
+- Support: Academic, Customer Service, Technical, Course-related — WhatsApp / phone / email / support form.
 
-Assignments (submit + teacher feedback, Pending/Submitted/Reviewed), attendance (totals, %, history), progress (overall + speaking/listening/reading/writing/vocabulary/grammar bars + feedback), certificates (view/download), payment tracking (package, total, discount, paid, remaining, status: Pending/Partially Paid/Paid/Confirmed), in-app notifications.
+## Admin Dashboard (design, mock data)
 
-## Phase 3 — Admin system
-
-Admin dashboard (total/active students, new registrations, pending payments, upcoming classes), student management, program/level/course/group management, class scheduling + attendance recording, payments, announcements and student communication, reports.
+- Overview: total students, active students, new registrations, pending payments, upcoming classes.
+- Students: table with add/edit/view screens, assign program / level / group, attendance, progress, payment status.
+- Programs & Courses: programs, levels, courses/groups, instructors, schedules.
+- Classes: create/schedule class, assign instructor, add students, class link, record attendance.
+- Payments: paid, pending, partial, outstanding balance, payment history.
+- Communication: announcements, notifications, student messages.
+- Notifications: notification center covering registration, payment, class reminders, schedule changes, assignments, feedback, announcements.
 
 ## Technical notes
 
-- TanStack Start routes; `_authenticated` gate for the portal, role-gated admin area.
-- Bilingual via a lightweight i18n context (EN/AR dictionaries) + `dir` switching on the document, persisted per user.
-- All colors as semantic tokens in `src/styles.css`; dark is the default theme with a light toggle.
+- TanStack Start + React with route files per page; no Lovable Cloud, no database, no auth backend.
+- All screen data comes from typed mock modules in one folder, each shaped like a REST resource so swapping in Laravel endpoints is a one-file change per resource.
+- Bilingual via a lightweight i18n context (EN/AR dictionaries) plus `dir` switching on the document, persisted in local storage.
+- All colors as semantic tokens in `src/styles.css`; white theme as the base.
 - Per-route SEO metadata (title, description, og/twitter) on every public page.
-- Payments in Phase 2 are tracked records only; a real payment provider can be wired in later if you want online checkout.
+- Fully responsive across mobile, tablet and desktop, with the portal optimized for mobile.
 
-## Scope note
+## Build order
 
-This is a large product. Phase 1 is built in this pass; Phases 2 and 3 follow in subsequent passes so each is reviewable.
+1. Design system, logo, i18n/RTL shell, header and footer.
+2. Public site: Home, About, How It Works, Programs + program pages, Find Your Level, Register, Payment, Contact, Login.
+3. Student Portal (all areas).
+4. Admin Dashboard (all areas).
